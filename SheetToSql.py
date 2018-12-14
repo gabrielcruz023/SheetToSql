@@ -2,6 +2,7 @@ from sys import argv as args
 import pyexcel as pe
 import os
 
+# Check if any argument is missing
 if len(args) != 3:
 	print("Arguments missing!")
 	exit(0)
@@ -27,12 +28,15 @@ for file in files:
 	
 	for sheet in sheets:
 		content = workbook[sheet].get_array()
+		# table_name comes from the sheet name if there's more than one in the workbook
+		# or from the filename, if there's just one sheet
 		table_name = sheet if len(sheets) > 1 else file.split('.')[0]
 
 		columns = ','.join(content[0])
 		query_file = open('%s%s.sql' % (output_path, table_name), 'w')
 
 		for line in content[1:]:
+			# If the value is not an int or float, it'll be treated as a string
 			values = ','.join([str(col) if type(col) in [int, float] else '\'%s\'' % col for col in line])
 			query_file.write('INSERT INTO %s (%s) VALUES (%s)\n' % (table_name, columns, values))
 
