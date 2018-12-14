@@ -3,7 +3,7 @@ import pyexcel as pe
 import os
 
 if len(args) != 3:
-	print("Error")
+	print("Arguments missing!")
 	exit(0)
 
 input_path, output_path = args[1:]
@@ -37,4 +37,4 @@ for file in files:
 			query_file.write('INSERT INTO %s (%s) VALUES (%s)\n' % (table_name, columns, values))
 
 		query_file.close()
-		print('Arquivo \'%s.sql\' criado com sucesso!' % table_name)
+		print('File \'%s.sql\' created successfully!' % table_name)
