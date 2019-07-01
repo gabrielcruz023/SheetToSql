@@ -27,10 +27,15 @@ def renderer(row):
 
 
 @click.command()
-@click.option('--batch', type=click.INT, default=100)
 @click.argument('sheet', type=click.File('rb'))
 @click.argument('output', type=click.File('w'), nargs=-1)
-def sheet2sql(batch, sheet, output):
+@click.option('--batch', type=click.INT, default=100,
+              help='Size of SQL query batch.')
+def sheet2sql(sheet, output, batch):
+    '''
+    Converts Excel sheets into SQL insert's, where SHEET is the file's
+    path and OUTPUT is all output files which names exists in the file.
+    '''
     sheet_ext = os.path.splitext(sheet.name)[1][1:]
     insert_layout = 'INSERT INTO {} ({}) VALUES ({})\n'
 
